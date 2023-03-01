@@ -155,6 +155,23 @@ void main()
                 system("cls");
                 printf("\t\t\033[1;32m    Tic Tac Toe\n\t\033[1;37m   Player 1 (\033[1;33mX\033[1;37m) \033[0;31mV/S\033[1;37m Player 2 (\033[1;33mO\033[1;37m)\n\n");
                 draw(arr);
+                if (checkWin(arr) != 0){
+                    event = true;
+                    option = 0;
+                    if (checkWin(arr) == 1){
+                        printf("\n\n\t\t\t\033[1;35m\033[3;35m\033[4;35mDraw!\033[0;31m");
+                    }else if(checkWin(arr) == 4){
+                        printf("\n\t\t  \033[1;35m\033[3;35m\033[4;35mPlayer 1 Wins!\033[0;31m");
+                    }else{
+                        printf("\n\t\t  \033[1;35m\033[3;35m\033[4;35mPlayer 2 Wins!\033[0;31m");
+                    }
+                    for (int i = 49; i <= 57; i++){
+                        arr index(i-49) = i;
+                    }
+                    printf("\n\n\t\033[2;31mPress any key to return to Main Menu");
+                    getch();
+                    goto Main_menu;
+                }
                 if (chance == 1){
                     printf("\n\tPlayer 1's Turn. Choose a square from (1 - 9)");
                 }
@@ -230,33 +247,35 @@ int is_vacant(int pos[2], char arr[3][3]){
 }
 
 int checkWin(char arr[3][3]){
+    int vacantBlocks = 0, pos[2];
     int sums[8] = {
-        value(arr[0][0]) + value(arr[0][1]) + value(arr[0][2]),
-        value(arr[1][0]) + value(arr[1][1]) + value(arr[1][2]),
-        value(arr[2][0]) + value(arr[2][1]) + value(arr[2][2]),
-        value(arr[0][0]) + value(arr[1][0]) + value(arr[2][0]),
-        value(arr[0][1]) + value(arr[1][1]) + value(arr[2][1]),
-        value(arr[0][2]) + value(arr[1][2]) + value(arr[2][2]),
-        value(arr[0][0]) + value(arr[1][1]) + value(arr[2][2]),
-        value(arr[2][0]) + value(arr[1][1]) + value(arr[0][2])
+        (value(arr[0][0])) + (value(arr[0][1])) + (value(arr[0][2])),
+        (value(arr[1][0])) + (value(arr[1][1])) + (value(arr[1][2])),
+        (value(arr[2][0])) + (value(arr[2][1])) + (value(arr[2][2])),
+        (value(arr[0][0])) + (value(arr[1][0])) + (value(arr[2][0])),
+        (value(arr[0][1])) + (value(arr[1][1])) + (value(arr[2][1])),
+        (value(arr[0][2])) + (value(arr[1][2])) + (value(arr[2][2])),
+        (value(arr[0][0])) + (value(arr[1][1])) + (value(arr[2][2])),
+        (value(arr[2][0])) + (value(arr[1][1])) + (value(arr[0][2]))
     };
-
     for (int i = 0; i < 8; i++){
         if (sums[i] == 3){
             return 4; //Player with 'X' wins
         }
         if (sums[i] == -3){
-            return -4; // Player with 'O' wins
+            return -4; //Player with 'O' wins
         }
     }
-    int vacantBlocks = 0;
     for (int i = 0; i < 9; i++){
-        if (is_vacant(arr index(i), arr) == true){
-            vacantBlocks ++;
+        pos[0] = (int) i/3;
+        pos[1] = i%3;
+        if (is_vacant(pos, arr) == true){
+            vacantBlocks++;
         }
     }
     if (vacantBlocks == 0){
         return 1; //Draw
+    }else{
+        return 0; //Game still going on
     }
-    return 0; //Game still going on
 }
