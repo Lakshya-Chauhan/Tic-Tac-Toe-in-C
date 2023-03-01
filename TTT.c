@@ -24,6 +24,11 @@ void gotoxy(int, int);
 void main()
 {
     int option = 0, event = true;
+    char arr[3][3] = {
+        "123",
+        "456",
+        "789"
+    };
     char keyPressed = '_';
     Main_menu:
         while(true){
@@ -143,11 +148,6 @@ void main()
         goto Main_menu;
 
     vsHuman:
-        char arr[3][3] = {
-            "123",
-            "456",
-            "789"
-        };
         while (true)
         {
             /* code */
