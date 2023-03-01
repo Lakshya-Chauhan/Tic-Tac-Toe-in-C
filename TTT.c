@@ -8,7 +8,7 @@
 #define false 0
 
 #define value(character) (character == 'X') ? 1 : ((character == 'O') ? -1 : 0)
-#define index(num) [(int) (num)/3][num%3]
+#define index(num) [(int) (num)/3][(num)%3]
 
 #define and &&
 #define or ||
@@ -23,7 +23,7 @@ void optionChosen(int, int);
 void gotoxy(int, int);
 void main()
 {
-    int option = 0, event = true;
+    int option = 0, event = true, chance = 1, err = false, pos[2];
     char arr[3][3] = {
         "123",
         "456",
@@ -119,7 +119,7 @@ void main()
                     event = true;
                     if (option == 0){
                         option = 0;
-                        // goto vsHuman;
+                        goto vsHuman;
                     }
                     if (option == 1){
                         option = 0;
@@ -150,9 +150,37 @@ void main()
     vsHuman:
         while (true)
         {
-            /* code */
+            if (event == true){
+                event = false;
+                system("cls");
+                printf("\t\t\033[1;32m    Tic Tac Toe\n\t\033[1;37m   Player 1 (\033[1;33mX\033[1;37m) \033[0;31mV/S\033[1;37m Player 2 (\033[1;33mO\033[1;37m)\n\n");
+                draw(arr);
+                if (chance == 1){
+                    printf("\n\tPlayer 1's Turn. Choose a square from (1 - 9)");
+                }
+                if (chance == 2){
+                    printf("\n\tPlayer 2's Turn. Choose a square from (1 - 9)");
+                }
+                if (err == true){
+                    err = false;
+                    printf("\n\t\033[1;31m Error: That square is already filled!");
+                }
+            }
+            if(kbhit()){
+                keyPressed = getch();
+                if (ord(keyPressed) >= 49 and ord(keyPressed) <= 57){
+                    event = true;
+                    pos[0] = (ord(keyPressed)-49)/3;
+                    pos[1] = (ord(keyPressed)-49)%3;
+                    if (is_vacant(pos, arr) == true){
+                        arr index(ord(keyPressed)-49) = (chance == 1) ? 'X' : 'O';
+                        chance = (chance == 1) ? 2 : 1;
+                    }else{
+                        err = true;
+                    }
+                }
+            }
         }
-        
 }
 
 int ord(int character){return character;}
@@ -193,7 +221,7 @@ void optionChosen(int givenOption, int realOption){
 
 
 int is_vacant(int pos[2], char arr[3][3]){
-    if ((arr[pos[0]][pos[1]] != 'X') or (arr[pos[0]][pos[1]] != 'O')){
+    if ((arr[pos[0]][pos[1]] != 'X') and (arr[pos[0]][pos[1]] != 'O')){
         return true;
     }
     else{
