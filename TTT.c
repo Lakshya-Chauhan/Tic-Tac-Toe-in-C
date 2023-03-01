@@ -24,25 +24,19 @@ void gotoxy(int, int);
 void main()
 {
     int option = 0, event = true;
-    char arr[3][3] = {
-        "123",
-        "456",
-        "789"
-    };
     char keyPressed = '_';
-    // draw(arr);
     Main_menu:
         while(true){
             if (event == true){
                 event = false;
                 system("cls");
-                printf("\t\t\t\t\033[1;32mTic Tac Toe\n\n");
+                printf("\t\t\t\t\033[0;30m\033[1;32mTic Tac Toe\n\n");
                 printf("\t\t\t\t");
                 optionChosen(option, 0);
                 printf("\033[0;34m Play\n");
                 printf("\t\t\t\t");
                 optionChosen(option, 1);
-                printf("\033[0;34m About\n");
+                printf("\033[0;34m Rules and About\n");
                 printf("\t\t\t\t");
                 optionChosen(option, 2);
                 printf("\033[0;34m Quit\n");
@@ -135,10 +129,29 @@ void main()
         }
     about:
         system("cls");
-        printf("\t\t\033[1;37m Made by\033[3;35m Legendary3995\n\t\t\033[0;30m\033[1;37m For more information visit:-\n\t\t\033[3;30m\033[4;34mhttps://github.com/Legendary3995/Tic-Tac-Toe-in-C\n\n");
-        printf("\t\t\033[0;31m\033[2;31m Press any key to go Back to main menu");
+        printf("\t\t\t\033[0;30m\033[1;33mRules\n\t\033[0;30m\033[1;37mTic Tac toe is a 1 to 2 player game.\n");
+        char tempArr[3][3] = {
+            "123",
+            "456",
+            "789"
+        };
+        draw(tempArr);
+        printf("\n\t\033[1;37mPress (1 - 9) to choose the square labeled by the number.\n\tFor more information on basic rules of Tic Tac Toe, visit:-\n\t\033[3;30m\033[4;34mhttps://en.wikipedia.org/wiki/Tic-tac-toe");
+        printf("\n\n\t\t\t\033[0;30m\033[1;33mAbout\n\t\t\033[1;37m Made by\033[3;35m Legendary3995\n\t\033[0;30m\033[1;37mFor more information visit:-\n\t\033[3;30m\033[4;34mhttps://github.com/Legendary3995/Tic-Tac-Toe-in-C\n\n");
+        printf("\t\033[0;31m\033[2;31m Press any key to go Back to main menu");
         getch();
         goto Main_menu;
+
+    vsHuman:
+        char arr[3][3] = {
+            "123",
+            "456",
+            "789"
+        };
+        while (true)
+        {
+            /* code */
+        }
         
 }
 
@@ -146,7 +159,7 @@ int ord(int character){return character;}
 int chr(char code){return code;}
 
 void draw(char arr[3][3]){
-    printf("\033[0;37m%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n%c%c         %c%c         %c%c         %c%c\n%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",
+    printf("\n\t\033[0;37m%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c    \033[1;34m%c\033[0;37m    %c%c\n\t%c%c         %c%c         %c%c         %c%c\n\t%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n\t",
         chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), 
         chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), chr(219), 
         chr(219), chr(219), arr[0][0], chr(219), chr(219), arr[0][1], chr(219), chr(219), arr[0][2], chr(219), chr(219),
