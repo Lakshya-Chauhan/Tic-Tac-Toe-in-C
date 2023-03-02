@@ -5,6 +5,10 @@
 
 #define inf 10
 
+// undefined previous declarations in windows.h
+#undef max
+#undef min
+
 #define max(a, b) ((a > b) ? a : b)
 #define min(a, b) ((a < b) ? a : b)
 
