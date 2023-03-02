@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <windows.h>
 
+#define inf 10
+
+#define max(a, b) ((a > b) ? a : b)
+#define min(a, b) ((a < b) ? a : b)
 
 #define true 1
 #define false 0
@@ -18,9 +22,11 @@ int ord(int);   //return the Ascii code of the character given as an argument
 int chr(char);  //returns the Ascii character at the ascii code given as an argument
 int checkWin(char arr[3][3]);   //Checks if any player has won in the position
 int is_vacant(int pos[2], char arr[3][3]);  //Checks if the given pos(position) is vacant on board
+int minimax(char position[3][3], int, int, int, int);
 void draw(char arr[3][3]);  //Draws the board
 void optionChosen(int, int);
 void gotoxy(int, int);
+void moveHist(char hist[9][2], int players);
 void main()
 {
     int option = 0, event = true, chance = 1, err = false, pos[2];
@@ -28,6 +34,16 @@ void main()
         "123",
         "456",
         "789"
+    },  moveHistory[9][2] = {
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  ",
+        "  "
     };
     char keyPressed = '_';
     Main_menu:
@@ -123,7 +139,7 @@ void main()
                     }
                     if (option == 1){
                         option = 0;
-                        // goto vsAI;
+                        goto vsAI;
                     }
                     if (option == 2){
                         option = 0;
@@ -155,6 +171,7 @@ void main()
                 system("cls");
                 printf("\t\t\033[1;32m    Tic Tac Toe\n\t\033[1;37m   Player 1 (\033[1;33mX\033[1;37m) \033[0;31mV/S\033[1;37m Player 2 (\033[1;33mO\033[1;37m)\n\n");
                 draw(arr);
+                //
                 if (checkWin(arr) != 0){
                     event = true;
                     option = 0;
@@ -169,6 +186,11 @@ void main()
                         arr index(i-49) = i;
                     }
                     printf("\n\n\t\033[2;31mPress any key to return to Main Menu");
+                    moveHist(moveHistory, 2);
+                    for (int i = 0; i < 9; i++){
+                        moveHistory[i][0] = ' ';
+                        moveHistory[i][1] = ' ';
+                    }
                     getch();
                     goto Main_menu;
                 }
@@ -182,6 +204,7 @@ void main()
                     err = false;
                     printf("\n\t\033[1;31m Error: That square is already filled!");
                 }
+                moveHist(moveHistory, 2);
             }
             if(kbhit()){
                 keyPressed = getch();
@@ -192,6 +215,78 @@ void main()
                     if (is_vacant(pos, arr) == true){
                         arr index(ord(keyPressed)-49) = (chance == 1) ? 'X' : 'O';
                         chance = (chance == 1) ? 2 : 1;
+                        for (int i = 0; i < 9; i++){
+                            if (moveHistory[i][0] == ' '){
+                                moveHistory[i][0] = chance + 48;
+                                moveHistory[i][1] = keyPressed;
+                                break;
+                            }
+                        }
+                    }else{
+                        err = true;
+                    }
+                }
+            }
+        }
+    vsAI:
+        while (true)
+        {
+            if (event == true){
+                event = false;
+                system("cls");
+                printf("\t\t\033[1;32m    Tic Tac Toe\n\t\033[1;37m   Player 1 (\033[1;33mX\033[1;37m) \033[0;31mV/S\033[1;37m AI (\033[1;33mO\033[1;37m)\n\n");
+                draw(arr);
+                //
+                if (checkWin(arr) != 0){
+                    event = true;
+                    option = 0;
+                    if (checkWin(arr) == 1){
+                        printf("\n\n\t\t\t\033[1;35m\033[3;35m\033[4;35mDraw!\033[0;31m");
+                    }else if(checkWin(arr) == 4){
+                        printf("\n\t\t  \033[1;35m\033[3;35m\033[4;35mPlayer 1 Wins!\033[0;31m");
+                    }else{
+                        printf("\n\t\t  \033[1;35m\033[3;35m\033[4;35mPlayer 2 Wins!\033[0;31m");
+                    }
+                    for (int i = 49; i <= 57; i++){
+                        arr index(i-49) = i;
+                    }
+                    printf("\n\n\t\033[2;31mPress any key to return to Main Menu");
+                    moveHist(moveHistory, 1);
+                    for (int i = 0; i < 9; i++){
+                        moveHistory[i][0] = ' ';
+                        moveHistory[i][1] = ' ';
+                    }
+                    getch();
+                    goto Main_menu;
+                }
+                if (chance == 1){
+                    printf("\n\tPlayer 1's Turn. Choose a square from (1 - 9)");
+                }
+                if (chance == 2){
+                    printf("\n\tPlayer 2's Turn. Choose a square from (1 - 9)");
+                }
+                if (err == true){
+                    err = false;
+                    printf("\n\t\033[1;31m Error: That square is already filled!");
+                }
+                moveHist(moveHistory, 1);
+            }
+            if(kbhit()){
+                keyPressed = getch();
+                if (ord(keyPressed) >= 49 and ord(keyPressed) <= 57){
+                    event = true;
+                    pos[0] = (ord(keyPressed)-49)/3;
+                    pos[1] = (ord(keyPressed)-49)%3;
+                    if (is_vacant(pos, arr) == true){
+                        arr index(ord(keyPressed)-49) = (chance == 1) ? 'X' : 'O';
+                        chance = (chance == 1) ? 2 : 1;
+                        for (int i = 0; i < 9; i++){
+                            if (moveHistory[i][0] == ' '){
+                                moveHistory[i][0] = chance + 48;
+                                moveHistory[i][1] = keyPressed;
+                                break;
+                            }
+                        }
                     }else{
                         err = true;
                     }
@@ -236,6 +331,24 @@ void optionChosen(int givenOption, int realOption){
     }
 }
 
+void moveHist(char hist[9][2], int players){
+    gotoxy(50, 5);
+    printf("\033[0;30m\033[1;33m\033[4;33mMove History\033[0;37m");
+    if (hist[0][0] != ' '){
+        for (int i = 0; i < 9; i++){
+            if (hist[i][0] != ' '){
+                gotoxy(51,7+i);
+                printf("\033[1;31m%d%c \033[0;31m\033[3;31mPlayer %c \033[0;37mchosen \033[0;36msquare %c\033[1;37m", (i+1), chr(175), hist[i][0], hist[i][1]);
+                continue;
+            }
+            break;
+        }
+    }else{
+        gotoxy(51, 7);
+        printf("No move played yet.");
+    }
+}
+
 
 int is_vacant(int pos[2], char arr[3][3]){
     if ((arr[pos[0]][pos[1]] != 'X') and (arr[pos[0]][pos[1]] != 'O')){
@@ -277,5 +390,48 @@ int checkWin(char arr[3][3]){
         return 1; //Draw
     }else{
         return 0; //Game still going on
+    }
+}
+
+int minimax(char position[3][3], int depth, int alpha, int beta, int maximizingPlayer){
+    if (depth == 0 or checkWin(position) != 0){
+        return checkWin(position);
+    }
+    int eval;
+    if (maximizingPlayer == true){
+        int maxEval = -inf, pos[2];
+        for (int i = 0; i < 9; i++){
+            pos[0] = (int) (i/3); 
+            pos[1] = (i%3);
+            if (is_vacant(pos, position)){
+                position index(i) = 'X';
+                eval = minimax(position, (depth-1), alpha, beta, false);
+                maxEval = max(maxEval, eval);
+                position index(i) = i+49;
+                alpha = max(alpha, eval);
+                if (beta <= alpha){
+                    break;
+                }
+            }
+        }
+        return maxEval;
+    }else{
+        int minEval = +inf, pos[2];
+        for (int i = 0; i < 9; i++){
+            pos[0] = (int) (i/3); 
+            pos[1] = (i%3);
+            if (is_vacant(pos, position)){
+                position index(i) = 'O';
+                eval = minimax(position, (depth-1), alpha, beta, true);
+                minEval = min(minEval, eval);
+                position index(i) = i+49;
+                beta = min(beta, eval);
+                if (beta <= alpha){
+                    break;
+                }
+            }
+        }
+        return minEval;
+        
     }
 }
