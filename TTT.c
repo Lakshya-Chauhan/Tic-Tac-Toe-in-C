@@ -332,20 +332,44 @@ void optionChosen(int givenOption, int realOption){
 }
 
 void moveHist(char hist[9][2], int players){
-    gotoxy(50, 5);
-    printf("\033[0;30m\033[1;33m\033[4;33mMove History\033[0;37m");
-    if (hist[0][0] != ' '){
-        for (int i = 0; i < 9; i++){
-            if (hist[i][0] != ' '){
-                gotoxy(51,7+i);
-                printf("\033[1;31m%d%c \033[0;31m\033[3;31mPlayer %c \033[0;37mchosen \033[0;36msquare %c\033[1;37m", (i+1), chr(175), hist[i][0], hist[i][1]);
-                continue;
+    if (players == 2){
+        gotoxy(50, 5);
+        printf("\033[0;30m\033[1;33m\033[4;33mMove History\033[0;37m");
+        if (hist[0][0] != ' '){
+            for (int i = 0; i < 9; i++){
+                if (hist[i][0] != ' '){
+                    gotoxy(51,7+i);
+                    printf("\033[1;31m%d%c \033[0;31m\033[3;31mPlayer %c \033[0;37mchosen \033[0;36msquare %c\033[1;37m", (i+1), chr(175), hist[i][0], hist[i][1]);
+                    continue;
+                }
+                break;
             }
-            break;
+        }else{
+            gotoxy(51, 7);
+            printf("No move played yet.");
         }
     }else{
-        gotoxy(51, 7);
-        printf("No move played yet.");
+        
+        gotoxy(50, 5);
+        printf("\033[0;30m\033[1;33m\033[4;33mMove History\033[0;37m");
+        if (hist[0][0] != ' '){
+            for (int i = 0; i < 9; i++){
+                if (hist[i][0] != ' '){
+                    if (hist[i][0] == '1'){
+                        gotoxy(51,7+i);
+                        printf("\033[1;31m%d%c \033[0;31m\033[3;31mPlayer \033[0;37mchosen \033[0;36msquare %c\033[1;37m", (i+1), chr(175), hist[i][0], hist[i][1]);
+                    }else{
+                        gotoxy(51,7+i);
+                        printf("\033[1;31m%d%c \033[0;31m\033[3;31mAI \033[0;37mchosen \033[0;36msquare %c\033[1;37m", (i+1), chr(175), hist[i][0], hist[i][1]);
+                    }
+                    continue;
+                }
+                break;
+            }
+        }else{
+            gotoxy(51, 7);
+            printf("No move played yet.");
+        }
     }
 }
 
